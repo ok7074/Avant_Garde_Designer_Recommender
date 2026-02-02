@@ -9,22 +9,6 @@ from src.recommender import build_corpora, attach_compatible_designers, recommen
 
 st.set_page_config(page_title="Private Project", layout="wide")
 
-# --- Optional: super simple password gate (uses Streamlit secrets) ---
-APP_PASSWORD = st.secrets.get("APP_PASSWORD", None)
-if APP_PASSWORD:
-    if "authed" not in st.session_state:
-        st.session_state.authed = False
-
-    if not st.session_state.authed:
-        st.title("🔒 Private App")
-        pwd = st.text_input("Password", type="password")
-        if st.button("Enter"):
-            if pwd == APP_PASSWORD:
-                st.session_state.authed = True
-                st.rerun()
-            else:
-                st.error("Wrong password")
-        st.stop()
 
 st.title("✨ Private Project (Placeholder)")
 st.caption("Streamlit UI kept thin. Core logic lives in src/.")
