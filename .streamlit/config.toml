@@ -3,3 +3,13 @@ headless = true
 
 [browser]
 gatherUsageStats = false
+
+[Theme]
+base= Theme.dark
+font="Escargoth Demo"
+baseFontSize=16
+textColor="#FDF6E2"
+
+[[theme.fontFaces]]
+family="Escargoth Demo"
+url="assets/escargoth/Escargoth Demo.ttf"

@@ -29,6 +29,8 @@ def build_corpora(df: pd.DataFrame, designer_df: pd.DataFrame) -> PreparedCorpor
             build_item_text(product_name, material_pattern, colour, garment_group_name, clothing_description)
         )
 
+
+    """Create texts like 'Designer: <description>' for embedding."""
     designers_text = [f"{name}: {desc}" for name, desc in zip(designer_df.index.tolist(), designer_df["Description"].tolist())]
     return PreparedCorpora(items_text=items_text, designers_text=designers_text)
 

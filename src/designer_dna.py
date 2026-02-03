@@ -140,6 +140,4 @@ def make_designer_df() -> pd.DataFrame:
         columns=["Description"],
     )
 
-def build_designer_corpus(designer_df: pd.DataFrame) -> list[str]:
-    """Create texts like 'Designer: <description>' for embedding."""
-    return [f"{name}: {desc}" for name, desc in zip(designer_df.index.tolist(), designer_df["Description"].tolist())]
+
