@@ -14,6 +14,7 @@ from .embeddings import encode_texts, cosine_sim
 class PreparedCorpora:
     items_text: list[str]
     designers_text: list[str]
+    df_with_designers: pd.DataFrame
 
 def build_corpora(df: pd.DataFrame, designer_df: pd.DataFrame) -> PreparedCorpora:
     """Build text corpora for items and designers."""
@@ -57,6 +58,7 @@ def attach_compatible_designers(
         idx = np.argsort(-row_scores)[:top_k_designers]
         out.at[i, "Compatible_designers"] = [(designer_names[j], float(row_scores[j])) for j in idx]
 
+    
     return out
 
 def recommend_from_query(
@@ -121,4 +123,4 @@ def recommend_from_query(
 
     designers_ranked = sorted(designer_score_acc.items(), key=lambda x: x[1], reverse=True)
 
-    return {"items": items, "designers": designers_ranked}
+    return {"items": items, "designers": designers_ranked.keys()}

@@ -10,7 +10,7 @@ import .embeddings as emb
 
 
 
-
+@dataclass
 class ControllerImpl(ControllerInterface):
     designerName : str
 # Here i basically want the prepping of the data to take place and then also the utilisation of the user query to generate embeddings. These will then be sent to the frontend to present to the user
@@ -35,6 +35,10 @@ class ControllerImpl(ControllerInterface):
         df_with_designer_recommendations= rc.attach_compatible_designers(final_df, df_embeddings, designer_embeddings, designer_df.index)
 
         return df_with_designer_recommendations
+
+
+    def generate_recommendation(user_query):
+        st.session_state.pre
 
 
 
