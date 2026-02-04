@@ -7,6 +7,7 @@ import .designer_dna
 import .preprocess as pp
 import .recommender as rc
 import .embeddings as emb
+import .text_utils as tu
 
 
 
@@ -17,28 +18,31 @@ class ControllerImpl(ControllerInterface):
 # for this i need to split the controller into a function that preprepares the data and the embeddings and one that takes in the user query to give back the final recommendation.
 
 #Data prepping and embedding
-    @st.cache_data
+    
     def data_prep_and_embed():
         #load and preprocess
         df=pd.read_csv("data/articles.csv")
+        model= emb.get_model(cf.SETTINGS.model_name)
         processed_df=pp.preprocess_articles(df)
         final_df= pp.get_value_from_description(precessed_df)
         designer_df=designer_dna.make_designer_df()
         #make corpus
-        prepped_corpora=rc.build_corpora(final_df, designer_df)
+        prepped_corpora=rc.PreparedCorpora.build_corpora(final_df, designer_df)
 
         #generate embeddings
-        df_embeddings=emb.encode_texts(prepped_corpora.items_text, emb.get_model(SETTINGS.model_name))
-        designer_embeddings=emb.encode_texts(prepped_corpora.designer_text, emb.get_model(SETTINGS.model_name))
+        df_embeddings=emb.encode_texts(prepped_corpora.items_text, model)
+        designer_embeddings=emb.encode_texts(prepped_corpora.designer_text, model)
 
         #calc similarity and attach as new column to the original df
-        df_with_designer_recommendations= rc.attach_compatible_designers(final_df, df_embeddings, designer_embeddings, designer_df.index)
+        df_with_designer_recommendations= rc.PreparedCorpora.attach_compatible_designers(final_df, df_embeddings, designer_embeddings, designer_df.index)
 
         return df_with_designer_recommendations
 
 
-    def generate_recommendation(user_query):
-        st.session_state.pre
+    def generate_recommendation(user_query,df,model_used):
+        df_corpus= rc.PreparedCorpora.build_corpora(df)
+        user_recommendations_dict= rc.recommend_from_query(user_query, model_used,df, df_corpus.items_text)
+        return user_recommendations_dict["designers"]
 
 
 

@@ -13,10 +13,10 @@ from .embeddings import encode_texts, cosine_sim
 @dataclass
 class PreparedCorpora:
     items_text: list[str]
-    designers_text: list[str]
+    designers_text: list[str] 
     df_with_designers: pd.DataFrame
 
-def build_corpora(df: pd.DataFrame, designer_df: pd.DataFrame) -> PreparedCorpora:
+def build_corpora(df: pd.DataFrame, designer_df: pd.DataFrame| None =None) -> PreparedCorpora:
     """Build text corpora for items and designers."""
     items_text = []
     for product_name, material_pattern, colour, garment_group_name, clothing_description in zip(
@@ -32,8 +32,10 @@ def build_corpora(df: pd.DataFrame, designer_df: pd.DataFrame) -> PreparedCorpor
 
 
     """Create texts like 'Designer: <description>' for embedding."""
-    designers_text = [f"{name}: {desc}" for name, desc in zip(designer_df.index.tolist(), designer_df["Description"].tolist())]
-    return PreparedCorpora(items_text=items_text, designers_text=designers_text)
+    if designer_df is not None:
+        designers_text = [f"{name}: {desc}" for name, desc in zip(designer_df.index.tolist(), designer_df["Description"].tolist())]
+        return PreparedCorpora(items_text=items_text, designers_text=designers_text)
+    return PreparedCorpora(items_text=items_text,designers_text=[])
 
 def attach_compatible_designers(
     df: pd.DataFrame,

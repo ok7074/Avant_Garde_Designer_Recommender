@@ -1,9 +1,16 @@
 import streamlit as streamlit
 import streamlit.components.v1 as components
 from .ControllerImpl import ControllerImpl
+from .embeddings import get_model
+from .config import SETTINGS
 
-
+#caching data
 controller = ControllerImpl()
+@st.cache_data
+df= controller.data_prep_and_embed()
+#replace model_name parameter in all src packages so it doesnt need to be entered again
+
+
 
 #page navigations
 app_page= st.Page("app2.py", title= "Home Page")
@@ -12,16 +19,12 @@ recommendations_page= st.Page("recommendation.py", title="Your Recommendations")
 pg = st.navigation([app_page,recommendations_page])
 st.title("Avant Garde Designer Recommender")
 
+
+
 #creating a stateful button
-
-if "user_query" not in st.session_state:
-    st.session_state.user_query= " "
-
 if "clicked" not in st.session_state:
     st.session_state.clicked=False
 
-if "prepped_data" not in st.session_state:
-    st.session_state.prepped_data=controller.data_prep_and_embed()
 
 button_col, input_col= st.columns(2)
 
@@ -34,7 +37,7 @@ button_col.button("Generate recommendation", on_click=set_click)
 
 
 if st.session_state.clicked:
-    if st.session_state.user_query!=" ":
+    recommendations=controller.generate_recommendation(st.session_state.user_query, df)
         
 
 
