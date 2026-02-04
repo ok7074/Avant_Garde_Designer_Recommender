@@ -8,7 +8,7 @@ from .config import SETTINGS
 controller = ControllerImpl()
 @st.cache_data
 df= controller.data_prep_and_embed()
-#replace model_name parameter in all src packages so it doesnt need to be entered again
+
 
 
 

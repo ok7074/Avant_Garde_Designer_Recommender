@@ -6,6 +6,7 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 import torch
+from .config import SETTINGS
 
 from .text_utils import build_item_text, split_sentences
 from .embeddings import encode_texts, cosine_sim
@@ -65,7 +66,7 @@ def attach_compatible_designers(
 
 def recommend_from_query(
     user_query: str,
-    model_name: str,
+    model_name: str=SETTINGS.model_name,
     df_with_designers: pd.DataFrame,
     item_emb,
     top_k_items: int = 5,

@@ -4,6 +4,7 @@ from functools import lru_cache
 import numpy as np
 from sentence_transformers import SentenceTransformer
 import torch
+from .config import SETTINGS
 
 @lru_cache(maxsize=1)
 def get_model(model_name: str) -> SentenceTransformer:
@@ -12,7 +13,7 @@ def get_model(model_name: str) -> SentenceTransformer:
 
 def encode_texts(
     texts: list[str],
-    model_name: str,
+    model_name: str=SETTINGS.model_name,
     batch_size: int = 32,
     to_tensor: bool = True,
     normalize: bool = True,

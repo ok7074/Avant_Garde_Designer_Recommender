@@ -39,7 +39,7 @@ class ControllerImpl(ControllerInterface):
         return df_with_designer_recommendations
 
 
-    def generate_recommendation(user_query,df,model_used):
+    def generate_recommendation(user_query,df):
         df_corpus= rc.PreparedCorpora.build_corpora(df)
         user_recommendations_dict= rc.recommend_from_query(user_query, model_used,df, df_corpus.items_text)
         return user_recommendations_dict["designers"]
