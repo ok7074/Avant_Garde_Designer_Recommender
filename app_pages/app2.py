@@ -1,15 +1,19 @@
-import streamlit as streamlit
+import streamlit as st
 import streamlit.components.v1 as components
-from .ControllerImpl import ControllerImpl
-from .embeddings import get_model
-from .config import SETTINGS
+from Controller.ControllerImpl import ControllerImpl
+from src.embeddings import get_model
+from src.config import SETTINGS
+
+#session state variables
+if "clicked" not in st.session_state:
+    st.session_state.clicked=False
+
+if "recommended_designers" not in st.session_state:
+    st.session_state.recommended_designers=[]
 
 #caching data
-controller = ControllerImpl()
 @st.cache_data
-df= controller.data_prep_and_embed()
-
-
+controller=ControllerImpl()
 
 
 #page navigations
@@ -22,10 +26,6 @@ st.title("Avant Garde Designer Recommender")
 
 
 #creating a stateful button
-if "clicked" not in st.session_state:
-    st.session_state.clicked=False
-
-
 button_col, input_col= st.columns(2)
 
 def set_click_and_query():
@@ -33,11 +33,11 @@ def set_click_and_query():
 
 
 input_col.text_input("Please enter your description here:", key="user_query")
-button_col.button("Generate recommendation", on_click=set_click)
+button_col.button("Generate recommendation", on_click=set_click_and_query)
 
 
 if st.session_state.clicked:
-    recommendations=controller.generate_recommendation(st.session_state.user_query, df)
+    st.session_state.recommended_designers=controller.make_recommendation(st.session_state.user_query, df)
         
 
 

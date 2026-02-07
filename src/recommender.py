@@ -66,9 +66,9 @@ def attach_compatible_designers(
 
 def recommend_from_query(
     user_query: str,
-    model_name: str=SETTINGS.model_name,
     df_with_designers: pd.DataFrame,
     item_emb,
+    model_name: str=SETTINGS.model_name,
     top_k_items: int = 5,
     top_k_designers_per_item: int = 6,
 ) -> dict:

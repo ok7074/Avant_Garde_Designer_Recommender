@@ -1,0 +1,56 @@
+from dataclasses import dataclass
+
+import streamlit as st
+from functools import lru_cache
+import numpy as np
+import pandas as pd
+import src.config as cf
+import src.designer_dna as dd
+import src.preprocess as pp
+import src.recommender as rc
+import src.embeddings as emb
+import src.text_utils as tu
+
+
+
+@dataclass
+class ServiceImpl():
+    designerNames : list[str]
+# Here i basically want the prepping of the data to take place and then also the utilisation of the user query to generate embeddings. These will then be sent to the frontend to present to the user
+# for this i need to split the controller into a function that prepares the data and the embeddings and one that takes in the user query to give back the final recommendation.
+
+#Data prepping and embedding
+    
+    def data_prep_and_embed(self):
+        #load and preprocess
+        df=pd.read_csv("data/articles.csv")
+        model= emb.get_model(cf.SETTINGS.model_name)
+        processed_df=pp.preprocess_articles(df)
+        final_df= pp.get_value_from_description(processed_df)
+        designer_df= dd.make_designer_df()
+        #make corpus
+        prepped_corpora=rc.PreparedCorpora.build_corpora(final_df, designer_df)
+
+        #generate embeddings
+        df_embeddings=emb.encode_texts(prepped_corpora.items_text, model)
+        designer_embeddings=emb.encode_texts(prepped_corpora.designer_text, model)
+
+        #calc similarity and attach as new column to the original df
+        df_with_designer_recommendations= rc.PreparedCorpora.attach_compatible_designers(final_df, df_embeddings, designer_embeddings, designer_df.index)
+
+        return df_with_designer_recommendations
+
+
+    def generate_recommendation(self, query,df):
+        df_corpus= rc.PreparedCorpora.build_corpora(df)
+        user_recommendations_dict= rc.recommend_from_query(user_query=query, df_with_designers=df, item_emb= df_corpus.items_text)
+        self.designerNames = user_recommendations_dict["designers"]
+        return self.designerNames
+
+
+
+
+
+
+
+

@@ -11,6 +11,6 @@ class Settings:
     top_k_designers: int = 6
 
     # Data paths (edit to match your local setup)
-    articles_csv_path: str = "data/raw/articles.csv"
+    articles_csv_path: str = "data/articles.csv"
 
 SETTINGS = Settings()

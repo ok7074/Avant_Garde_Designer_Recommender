@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+../.venv/
+venv/
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit secrets (never commit)
+.streamlit/secrets.toml
+
+# Data (keep large/private data out of git)
+data/raw/
+data/processed/
+data/private/
+*.parquet
+*.pkl
+*.joblib
+
+# IDEs
+.idea/
+.vscode/
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
