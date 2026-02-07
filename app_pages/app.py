@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 
-from src.config import SETTINGS
-from src.preprocess import preprocess_articles
-from src.designer_dna import make_designer_df
-from src.embeddings import encode_texts
-from src.recommender import build_corpora, attach_compatible_designers, recommend_from_query
+from src import SETTINGS
+from src import preprocess_articles
+from src import make_designer_df
+from src import encode_texts
+from src import build_corpora, attach_compatible_designers, recommend_from_query
 
 st.set_page_config(page_title="Private Project", layout="wide")
 
