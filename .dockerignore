@@ -1,0 +1,29 @@
+# Git folder
+.git
+.gitignore
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment folders
+.venv/
+env/
+venv/
+
+# Notebook files (if not needed in container)
+*.ipynb
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+
+# Logs
+*.log
+
+
