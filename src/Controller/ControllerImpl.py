@@ -1,5 +1,6 @@
 
-from Service.ServiceImpl import ServiceImpl
+from src.Service.ServiceImpl import ServiceImpl
+
 
 class ControllerImpl:
 
@@ -15,4 +16,9 @@ class ControllerImpl:
         return designer_names
 
 
+    def return_images(self, designer_names):
+        return self.service.search_and_return_images(designer_names)
 
+
+    def write_article_text(self,name):
+        return self.service.designer_article_text(name)

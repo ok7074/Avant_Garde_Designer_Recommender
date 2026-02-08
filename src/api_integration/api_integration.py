@@ -3,11 +3,12 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
+api_key= os.getenv("pinterest_api_key")
 
-def make_api_call(url="https://de.pinterest.com/homefeed//v1/pinterest/search", method="get", data=None, params=None, headers=None):
+def make_api_call(url="https://de.pinterest.com/homefeed//v1/pinterest/search", method="get", data=None, params=None, headers={ "x-api-key": f"Bearer {api_key}"}):
 
     # Set up the request method
-    api_key= os.getenv("pinterest_api_key")
+
     request_method = getattr(requests, method.lower())
 
     try:
@@ -24,7 +25,7 @@ def make_api_call(url="https://de.pinterest.com/homefeed//v1/pinterest/search", 
         response.raise_for_status()
 
         # Return JSON response if applicable
-        if response.headers.get('content-type') == 'application/json':
+        if 'application/json' in response.headers.get('content-type'):
             return response.json()
         return response.text
 

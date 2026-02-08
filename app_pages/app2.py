@@ -17,9 +17,10 @@ controller = get_controller()
 
 # page navigations
 app_page = st.Page("main.py", title="Home Page")
-recommendations_page = st.Page("recommendation.py", title="Your Recommendations")
+recommendation1_page = st.Page("recommendation1.py", title="Designer One")
+recommendation2_page = st.Page("recommendation2.py", title="Designer Two")
 
-pg = st.navigation([app_page, recommendations_page])
+pg = st.navigation([app_page, recommendation1_page,recommendation2_page])
 
 st.title("Avant Garde Designer Recommender")
 
@@ -43,5 +44,5 @@ if st.session_state.clicked:
     st.session_state.recommended_designers = controller.make_recommendation(
         st.session_state.user_query
     )
-
-st.write(st.session_state.recommended_designers)
+    if len(st.session_state.recommended_designers)!=0:
+        st.session_state.images=controller.return_images(st.session_state.recommended_designers)
