@@ -1,5 +1,5 @@
 import streamlit as st
-from Controller.ControllerImpl import ControllerImpl
+from src.Controller.ControllerImpl import ControllerImpl
 
 # session state variables
 if "clicked" not in st.session_state:
@@ -16,7 +16,7 @@ def get_controller():
 controller = get_controller()
 
 # page navigations
-app_page = st.Page("app2.py", title="Home Page")
+app_page = st.Page("main.py", title="Home Page")
 recommendations_page = st.Page("recommendation.py", title="Your Recommendations")
 
 pg = st.navigation([app_page, recommendations_page])

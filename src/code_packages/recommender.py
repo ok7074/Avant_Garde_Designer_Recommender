@@ -126,4 +126,4 @@ def recommend_from_query(
 
     designers_ranked = sorted(designer_score_acc.items(), key=lambda x: x[1], reverse=True)
 
-    return {"items": items, "designers": designers_ranked.keys()}
+    return {"items": items, "designers": designers_ranked}
